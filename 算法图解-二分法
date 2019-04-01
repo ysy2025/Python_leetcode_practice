@@ -1,0 +1,65 @@
+leetcode No50解题思路回顾
+class Solution(object):
+    def myPow(self, x, n):
+        """
+        :type x: float
+        :type n: int
+        :rtype: float
+        """
+        if n < 0:
+            return 1/Solution.myPow(self,x,abs(n))
+        if n == 0:
+            return 1
+        if n == 1:
+            return x
+        if n > 1:
+            return x*Solution.myPow(self,x,n-1)
+果然有问题。maxium recursion depth exceed，递归次数爆炸了。难怪和二分法有关系啊。
+class Solution(object):
+    def myPow(self, x, n):
+        """
+        :type x: float
+        :type n: int
+        :rtype: float
+        """
+        if n < 0:
+            return 1/Solution.myPow(self,x,abs(n))
+        if n == 0:
+            return 1
+        if n == 1:
+            return x
+        if n > 1:
+            if n%2 == 1:
+                return x*Solution.myPow(self,x,n//2)*Solution.myPow(self,x,n//2)
+            else:
+                return Solution.myPow(self,x,n//2)*Solution.myPow(self,x,n//2)
+还是不负众望，超过时间限制。。。
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        if n < 0:
+            return self.myPow(1/x,-n)
+        if n == 0:
+            return 1
+        if n == 1:
+            return x
+        if n == 2:
+            return x*x
+        return self.myPow(self.myPow(x,n/2),2) if n%2 == 0 else x*self.myPow(self.myPow(x,(n-1)/2),2)
+注意，return Solution.myPow(self,x,abs(n))和return self.myPow(1/x,-n)的写法不一样，而参数也不一样！
+上面的一个还是超过时间限制了
+
+
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        if n < 0:
+            return 1/self.myPow(x,-n)#return self.myPow((1 / x), n)
+        if n == 0:
+            return 1
+        if n == 1:
+            return x
+        if n == 2:
+            return x * x
+        return x * self.myPow(self.myPow(x, n // 2), 2) if n % 2 == 1 else self.myPow(self.myPow(x, n // 2), 2)
+
+但是把最后的return语句改成表达式就通过了。这证明了python中表达式的厉害之处。
+return self.myPow((1 / x), n)是隐患，改写回去return 1/self.myPow(x,-n)。
