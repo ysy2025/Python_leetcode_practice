@@ -1,0 +1,45 @@
+class Solution:
+    def fourSumCount(self, A: List[int], B: List[int], C: List[int], D: List[int]) -> int:
+        A = sorted(A)
+        B = sorted(B)
+        C = sorted(C)
+        D = sorted(D)
+        d_ab = []
+        d_cd = []
+        count = 0
+        for i in A:
+            for j in B:
+                d_ab.append(i+j)
+        for k in C:
+            for l in D:
+                d_cd.append(k+l)
+        print(d_ab)
+        print(d_cd)
+        for each in d_ab:
+            if -each in d_cd:
+                count += 1
+        return count
+但是有个问题，比如d_ab中，-1对应的1在d_cd中有几个，那我这个就不行了。要两次遍历。
+那样的话，时间复杂度就是n*n了。果然暴力是不行的。。超过时间限制啊。
+
+class Solution:
+    def fourSumCount(self, A: List[int], B: List[int], C: List[int], D: List[int]) -> int:
+        count = 0
+        ab_map = dict()
+
+        for a in A:
+            for b in B:
+                ab_map[a + b] = ab_map.get(a + b, 0) + 1
+        print(ab_map)
+        for c in C:
+            for d in D:
+                s = -(c + d)
+                if s in ab_map:
+                    count += ab_map[s]
+        return count
+Python 字典(Dictionary) get() 函数返回指定键的值，如果值不在字典中返回默认值。
+dict.get(key, default=None)
+参数
+key -- 字典中要查找的键。
+default -- 如果指定键的值不存在时，返回该默认值值！
+dict的意义凸显出来了。。。
