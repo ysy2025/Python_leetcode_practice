@@ -1,0 +1,77 @@
+leetcode No.927
+给定一个由0和1组成的数组A，将数组分成3个非空的部分，使得所有这些部分表示相同的二进制值。
+如果可以做到，请返回任何[i, j]，其中i + 1 < j，这样一来：
+A[0], A[1], ..., A[i]组成第一部分；A[i + 1], A[i + 2], ..., A[j - 1]作为第二部分；
+A[j], A[j + 1], ..., A[A.length - 1]是第三部分。这三个部分所表示的二进制值相等。
+如果无法做到，就返回[-1, -1]。
+
+注意，在考虑每个部分所表示的二进制时，应当将其看作一个整体。例如，[1, 1, 0]
+表示十进制中的6，而不会是3。此外，前导零也是被允许的，所以[0, 1, 1]和[1, 1]表示相同的值。
+
+输入：[1, 0, 1, 0, 1]
+输出：[0, 3]
+class Solution:
+    def threeEqualParts(self, A: List[int]) -> List[int]:
+        def binit(n):
+            temp = ''
+            for each in n:
+                temp = temp+str(each)
+            return int(temp,2)
+        left = 1
+        right = len(A)-2
+        while left <= right:
+            temp_1 = A[0:left]
+            temp_2 = A[left:right+1]
+            temp_3 = A[right+1:len(A)]
+            if binit(temp_1) == binit(temp_3):
+                if binit(temp_1) == binit(temp_2):
+                    return [left-1,right+1]
+                elif binit(temp_1) < binit(temp_2):
+                    right -= 1
+                else:
+                    return [-1,-1]
+            if binit(temp_1) < binit(temp_3):
+                left += 1
+            if binit(temp_1) > binit(temp_3):
+                right -= 1
+        return [-1,-1]
+上面的可以完成，但是时间复杂度太大了，超时间了。
+看到csdn上面的大神给出的答案
+sumA = sum(A)
+        if sumA == 0:#如果1的数量为0，直接返回【0,2】不管怎么分都是0
+            return [0, 2]
+        if sumA % 3:#如果1不能均分为3份，直接不可能均分的
+            return [-1, -1]
+        cal = sumA // 3
+        tail0, i = 0, len(A) - 1
+        while A[i] == 0:#这里是计算尾巴部分几个0.这个很重要
+            i -= 1
+            tail0 += 1
+        lst = [[], [], []]
+        tmp, idx, tail = 0, 0, 0
+        for a in A:
+            if tmp < cal:#tmp比平均的1的个数小，就先加。假如cal是1，就是平均每个数字1个1
+                tmp += a
+                lst[idx].append(str(a))#如果第一个数就是1，那么已经满了。这个循环式加到1满载位置。#
+                                        # 这时，lst的第一个位置的【】中的1填满。下一步跳到elif
+            elif tail < tail0:#假如第一个数字就是1，那么此时，看尾巴的0有几个。没有0，#
+                                # 直接跳到下面接着加lst的第二个位置；有0，给lst的第一个位置加数字。
+                                # #如果数字是0就加，不然就不可能配对成功。
+                if a == 0:
+                    lst[idx].append(str(a))
+                    tail += 1
+                else:
+                    return [-1, -1]
+            else:                   #假如前面都搞定了，这里是填充第三个【】。
+                tmp, tail = 0, 0
+                idx += 1
+                tmp += a
+                lst[idx].append(str(a))
+        if int("".join(lst[0])) == int("".join(lst[1])) == int("".join(lst[2])):
+            return [len(lst[0]) - 1, len(lst[0]) + len(lst[1])]
+        else:
+            return [-1, -1]
+
+原文：https://blog.csdn.net/HJXINKKL/article/details/83239959
+
+这道题超级难的。我的思路可以解决不那么长的。但是太长的，还是csdn给出的答案靠谱。差距啊。
