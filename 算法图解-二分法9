@@ -1,0 +1,67 @@
+class Solution:
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        temp = len(nums)
+        if target > nums[temp-1]:
+            return temp
+        elif target < nums[0]:
+            return 0
+        else:
+            left = 0
+            right = temp
+            while left+1<right:
+                mid = (left+right)//2
+                if nums[mid] > target:
+                    right = mid
+                if nums[mid] < target:
+                    left = mid
+                if nums[mid] == target:
+                    return mid
+            return right
+但是有问题，【1】插入1失败。
+版本2
+class Solution:
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        temp = len(nums)
+        if target > nums[temp-1]:
+            return temp
+        elif target <= nums[0]:
+            return 0
+        else:
+            if temp == 1:
+                if target > nums[temp-1]:
+                    return 1
+                else:
+                    return 0
+            else:
+                left = 0
+                right = temp
+                while left+1<right:
+                    mid = (left+right)//2
+                    if nums[mid] > target:
+                        right = mid
+                    if nums[mid] < target:
+                        left = mid
+                    if nums[mid] == target:
+                        return mid
+                return right
+这样是可以了，但是中间的太繁琐，没必要
+class Solution:
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        temp = len(nums)
+        if target > nums[temp-1]:
+            return temp
+        elif target <= nums[0]:
+            return 0
+        else:
+            left = 0
+            right = temp
+            while left+1<right:
+                mid = (left+right)//2
+                if nums[mid] > target:
+                    right = mid
+                if nums[mid] < target:
+                    left = mid
+                if nums[mid] == target:
+                    return mid
+            return right
+稍加改动即可。
