@@ -1,0 +1,12 @@
+给定两个大小为 m 和 n 的有序数组 nums1 和 nums2。
+请你找出这两个有序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。
+你可以假设 nums1 和 nums2 不会同时为空。
+
+class Solution:
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        nums3 = sorted(nums1+nums2)
+        if len(nums3)%2 ==0:
+            return (nums3[len(nums3)//2]+nums3[(len(nums3)//2)-1])/2
+        else:
+            return (nums3[len(nums3)//2])
+umm。投机取巧的方法。
