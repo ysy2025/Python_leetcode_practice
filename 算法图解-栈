@@ -1,0 +1,92 @@
+leetcode No.20
+class Solution:
+    def isValid(self, s: str) -> bool:
+        while '{}' in s or '()' in s or '[]' in s:
+            s = s.replace('{}', '')
+            s = s.replace('[]', '')
+            s = s.replace('()', '')
+        return s == ''
+强无敌！上面的方法太牛了
+我自己的方法
+d = ['()','[]','{}']
+if len(s)%2:
+    return False
+else:
+    stack1 = list(s)
+    temp = len(stack1)
+    stack2 = []
+    while len(stack1)>= temp/2:
+        stack2.insert(0,stack1.pop())#我想的是，把【（）】这样的字段从中间分开
+    for i in range(len(stack1)):
+        if (stack1[i]+stack2[i]) in d:#然后（+）一一配对
+            return True
+        else:
+            return False
+这种限制于（{}）这样的嵌套型。（）【】这样的就不行了
+
+class Solution:
+    def isValid(self, s: str) -> bool:
+        stack_l = []
+        stack_r = []
+        left_s = ['(', '[', '{']
+        right_s = [')', ']', '}']
+        none = [' ']
+        d = ['()', '[]', '{}']
+        i = 0
+        while i < len(s):
+            if s[0] in right_s:
+                return False
+            else:
+                if i in left_s:
+                    stack_l.append(i)
+            if i in right_s:
+                stack_r.insert(0, i)
+            if i in none:
+                pass
+            if len(stack_l) and len(stack_r):
+                if (stack__l[-1] + stack_r[-1]) in d:
+                    stack_l.pop()
+                    stack_r.pop()
+                else:
+                    return False
+
+                if len(stack) == 0:
+                    return False
+                else:
+                    if match(i):
+                        stack.pop()
+                    else:
+                        return False
+                if len(stack) == 0:
+                    return True
+                else:
+                    return False
+            i += 1
+啊。。我尽力了。。。
+class Solution:
+    def isValid(self, s: str) -> bool:
+        stack_l = []
+        stack_r = []
+        left_s = ['(', '[', '{']
+        right_s = [')',']','}']
+        d = ['()','[]','{}']
+        i = 0
+        if len(s) == 0:#长度为0，直接返回
+            return True
+        else:
+            if s[0] in right_s:#第一个是右括号，直接gg
+                    return False
+            else:
+                for i in s:
+                    if i in left_s:
+                        stack_l.append(i)#左边栈
+                    if i in right_s:
+                        stack_r.insert(0,i)#右边栈
+                    if len(stack_l) and len(stack_r):#左边栈和右边栈都有的时候，
+                        if (stack_l[-1]+stack_r[-1]) in d:#看看最后的是不是匹配
+                            stack_l.pop()#匹配就pop掉
+                            stack_r.pop()
+                        else:
+                            return False#不匹配，false
+        return not(len(stack_l) or len(stack_r))#最后看长度，只有都为0才是true
+题目设置的很理想化，不会出现特别复杂的，没有空格，不会出现（）】【这样的变态。所以上面的方法可以搞定
