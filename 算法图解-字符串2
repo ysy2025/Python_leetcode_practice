@@ -1,0 +1,64 @@
+leetcode No.0002
+给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
+示例 1:
+输入: "abcabcbb"
+输出: 3
+解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+示例 2:
+输入: "bbbbb"
+输出: 1
+解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
+示例 3:
+输入: "pwwkew"
+输出: 3
+解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
+     请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
+
+class Solution:
+    def length(self, s):
+        temp = []
+        length = []
+        i = 0
+        while i < len(s):
+            print(i, s[i])
+            if s[i] not in temp:
+                temp.append(s[i])
+                print('temp=', temp)
+                i += 1
+                continue
+            if s[i] in temp:
+                length.append(len(temp))
+                print('length=', length)
+                temp = temp[(temp.index(s[i]) + 1):]
+                print('temp=', temp)
+                temp.append(s[i])
+                i += 1
+                print('temp=', temp)
+                continue
+            return max(max(length), len(temp))
+
+
+a = Solution()
+b = a.length('a')
+上面的方法对于有重复的是可以解决的，但是对于没有重复，或者没有长度的，无法搞定。因为我假设了一定有重复。
+没有重复的或者没有长度的，length是空。所以稍微改动一下即可。
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        temp = []
+        length = []
+        i = 0
+        while i <len(s):
+            if s[i] not in temp:
+                temp.append(s[i])
+                i+=1
+                continue
+            if s[i] in temp:
+                length.append(len(temp))
+                temp = temp[(temp.index(s[i])+1):]
+                temp.append(s[i])
+                i+=1
+                continue
+        if len(length) == 0:
+            return len(temp)
+        else:
+            return max(max(length), len(temp))
