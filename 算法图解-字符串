@@ -1,0 +1,90 @@
+leetcode No.0008
+class Solution:
+    def myAtoi(self, str: str) -> int:
+        numbers = ['0','1','2','3','4','5','6','7','8','9','-','+']
+        temp = list(str.strip())
+        mynumbers = ''
+        if temp[0] not in numbers:
+            return 0
+        else:
+            for i in temp:
+                if i in numbers:
+                    mynumbers+=i
+            mynumbers = int(mynumbers)
+            if mynumbers < -2**31:
+                return (-2**31)
+            if mynumbers > (2**(31)-1):
+                return (2**(31)-1)
+            else:
+                return int(mynumbers)
+问题：对于+11这样的，没办法处理。
+对于+11，-11，分别输出11,-11
+对于22+11,22-11这样的，分别输出22,22，说明+-号只有在str的首位才可以，否则都gg。
+还有就是单独的+-号输出为0
+class Solution:
+    def myAtoi(self, str: str) -> int:
+        numbers = ['0','1','2','3','4','5','6','7','8','9']
+        symbols = ['-','+']
+        temp = list(str.strip())
+        mynumbers = ''
+        if len(temp) == 0:
+            return 0
+        if len(temp) == 1 and temp[0] in symbols:
+            return 0
+        else:
+            if temp[0] not in numbers and temp[0] not in symbols:
+                return 0
+            else:
+                if temp[0] in symbols:
+                    mynumbers+=temp[0]#说明+-号只有在str的首位才可以，
+                    for i in range(1,len(temp)):
+                        if i in numbers:
+                            mynumbers+=i
+                        if i not in numbers:#说明+-号在其他位置直接gg
+                            break
+                if temp[0] in numbers:
+                    for i in range(len(temp)):
+                        if i in numbers:
+                            mynumbers+=i
+                        if i not in numbers:
+                            break
+                mynumbers = int(mynumbers)
+                if mynumbers < -2**31:
+                    return (-2**31)
+                if mynumbers > (2**(31)-1):
+                    return (2**(31)-1)
+                else:
+                    return int(mynumbers)
+最后的定稿
+class Solution:
+    def myAtoi(self, str: str) -> int:
+        numbers = ["0","1","2","3","4","5","6","7","8","9"]
+        symbols = ["+","-"]
+        temp = list(str.strip())
+        mynumbers = ''
+        if len(temp) == 0:
+            return 0
+        if len(temp) == 1:
+            if temp[0] not in numbers:
+                return 0
+            else:
+                return int(temp[0])
+        if len(temp)>1:
+            if temp[0] not in numbers and temp[0] not in symbols:
+                return 0
+            mynumbers+=temp[0]
+            for i in range(1,len(temp)):
+                if temp[i] in numbers:
+                    mynumbers+=temp[i]
+                if temp[i] not in numbers:
+                    break
+        if len(mynumbers)==1 and mynumbers[0] in symbols:
+            return 0
+        mynumbers = int(mynumbers)
+        if mynumbers < -2**31:
+            return (-2**31)
+        if mynumbers > (2**(31)-1):
+            return (2**(31)-1)
+        return int(mynumbers)
+a = Solution()
+b = a.myAtoi('+1232')
