@@ -62,3 +62,20 @@ class Solution:
             return len(temp)
         else:
             return max(max(length), len(temp))
+
+评论区神仙算法。
+class Solution:
+    def lengthOfLongestSubstring(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        st = {}
+        i, ans = 0, 0
+        for j in range(len(s)):
+            if s[j] in st:
+                i = max(st[s[j]], i)#如果有重复，找到最大的重复位置
+            ans = max(ans, j - i + 1)#首先得到0和第一个不重复的长度的最大值；后面的重复就是得到第一个不重复的长度
+                                     #和第二个重复长度的比较。不断比较得到最长的不重复长度。
+            st[s[j]] = j + 1
+        return ans;
