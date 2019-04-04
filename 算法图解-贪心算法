@@ -1,0 +1,18 @@
+leetcode No.944
+class Solution:
+    def minDeletionSize(self, A: List[str]) -> int:
+        count = 0
+        for i in range(len(A[0])):
+            temp = ''.join(word[i] for word in A)
+            if not self.order(temp):
+                count += 1
+        return count
+
+    def order(self, A):
+        A = list(A)
+        temp = sorted(A)
+        if list(A) == temp:
+            return True
+        else:
+            return False
+贪心算法
