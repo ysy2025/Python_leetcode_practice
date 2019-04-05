@@ -33,3 +33,18 @@ class so:
                     nogo.append(go[i - 1])
         return min(go[len(cost) - 1], nogo[len(cost) - 1])
 哈哈，成功了.
+class Solution:
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        if len(cost) == 0:
+            return 0
+        if len(cost) == 1:
+            return cost[0]
+        if len(cost) == 2:
+            return min(cost[0],cost[1])
+        else:
+            #go and no go，字面意思，过，不过台阶。
+            go,nogo =cost[1],cost[0]
+            for i in range(2, len(cost)):
+                nogo,go=go,min(go+cost[i],nogo+cost[i])
+        return min(go,nogo)
+简单优化了一下，稍微好一点。
