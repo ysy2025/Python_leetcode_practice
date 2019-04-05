@@ -1,0 +1,54 @@
+leetcode No.121
+给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
+如果你最多只允许完成一笔交易（即买入和卖出一支股票），设计一个算法来计算你所能获取的最大利润。
+注意你不能在买入股票前卖出股票。
+示例 1:
+输入: [7,1,5,3,6,4]
+输出: 5
+解释: 在第 2 天（股票价格 = 1）的时候买入，在第 5 天（股票价格 = 6）的时候卖出，最大利润 = 6-1 = 5 。
+     注意利润不能是 7-1 = 6, 因为卖出价格需要大于买入价格。
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        profit = []
+        if prices.sort(reverse = True) == prices:
+            return 0
+        if prices.sort == prices:
+            return prices[-1]-price[0]
+        else:
+            profit.insert(0,0)
+            for i in range(1,len(prices)):
+                print('i=',i)
+                print('prices[i]=',prices[i])
+                print('prices[0:i]=',(prices[0:i]))
+                profit.insert(i,max(0,(prices[i]-min(prices[0:i]))))
+                print('profit=',profit)
+        return max(profit)
+    注意上面的，先sort了，后面的price全部sort了，那就失败了。
+    所以在前面的简单判断的时候加一个替罪羊。
+
+    class Solution:
+        def maxProfit(self, prices: List[int]) -> int:
+            profit = []
+            prices_copy = copy.deepcopy(prices)
+            if prices_copy.sort(reverse=True) == prices:
+                return 0
+            if prices_copy.sort == prices:
+                return prices_copy[-1] - prices_copy[0]
+            else:
+                profit.insert(0, 0)
+                for i in range(1, len(prices)):
+                    profit.insert(i, max(0, (prices[i] - min(prices[0:i]))))
+            return max(profit)
+umum，超出时间限制。主要是min这个吧。
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        if len(prices)<2:
+            return 0
+        else:
+            mins, maxs = prices[0], 0
+            a = len(prices)
+            for i in range(1, a):
+                mins = min(mins, prices[i])
+                maxs = max(maxs, prices[i]-mins)
+            return maxs
+动态规划。
