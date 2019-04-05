@@ -1,0 +1,17 @@
+leetcode No.62
+一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。
+机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。
+问总共有多少条不同的路径？
+class so:#是行是列很重要！
+    def mincost(self, m,n):
+        record = [[1]*m for i in range(n)]
+        print(record)
+        for i in range(1,n):
+            for j in range(1,m):
+                print(i,j)
+                record[i][j] = record[i-1][j]+record[i][j-1]
+        print(record)
+        return record[n-1][m-1]
+a = so()
+b = a.mincost(7,3)
+#print(b)
