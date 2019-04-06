@@ -1,0 +1,39 @@
+leetcode No.64
+class Solution:
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        ho = len(grid[0])
+        gr = len(grid)
+        grid[0][0] = grid[0][0]
+        for i in range(1, gr - 1):
+            grid[i][0] = min((grid[i][1]), (grid[i - 1][0]), (grid[i + 1][0])) + grid[i][0]
+            grid[i][ho - 1] = min((grid[i][ho - 2]), (grid[i - 1][ho - 1]), (grid[i + 1][ho - 1])) + grid[i][ho - 1]
+            for j in range(1, ho - 1):
+                grid[0][j] = min((grid[0][j - 1]), (grid[0][j + 1]), (grid[1][j])) + grid[0][j]
+                grid[gr - 1][j] = min((grid[gr - 1][j - 1]), (grid[gr - 1][j + 1]), (grid[gr - 2][j])) + grid[gr - 1][j]
+                grid[i][j] = min((grid[i][j - 1]), (grid[i][j + 1]), (grid[i - 1][j]), (grid[i + 1][j])) + grid[i][j]
+                grid[gr - 1][0] = min((grid[gr - 1][1]), (grid[gr - 2][0])) + grid[gr - 1][0]
+                grid[0][ho - 1] = min((grid[0][ho - 2]), (grid[1][ho - 1])) + grid[0][ho - 1]
+                grid[gr - 1][ho - 1] = min((grid[gr - 2][ho - 1]), (grid[gr - 1][ho - 2])) + grid[gr - 1][ho - 1]
+        return grid[gr - 1][ho - 1]
+我走进误区了。以此为警戒。
+简单的动态规划。
+
+class Solution:
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+
+        dp = [[0] * n for i in range(m)]
+
+        for i in range(m):
+            for j in range(n):
+                if i == 0 and j == 0:
+                    dp[i][j] = grid[i][j]
+                elif i == 0 and j != 0:
+                    dp[i][j] = dp[i][j - 1] + grid[i][j]
+                elif j == 0 and i != 0:
+                    dp[i][j] = dp[i - 1][j] + grid[i][j]
+                else:
+                    dp[i][j] = min(dp[i - 1][j], dp[i][j - 1]) + grid[i][j]
+        print(dp)
+        return dp[m - 1][n - 1]
