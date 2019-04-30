@@ -1,0 +1,16 @@
+leetcode No.496
+class Solution:
+    def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        res = []
+        for each in nums1:
+            temp = nums2.index(each)
+            temp_2 = False
+            for i in range(temp+1,len(nums2)):
+                if nums2[i] > each:
+                    res.append(nums2[i])
+                    temp_2 = True
+                    break
+            if not temp_2:
+                res.append(-1)
+        return res
+本来以为是栈，但是发现好像不用那么复杂。。
