@@ -1,0 +1,20 @@
+# def best_params():
+params = {'penalty':['l1','l2'],'class_weight':['balanced', None],'C':[0.001,0.01,0.1,1,10,100,1000]}
+cv_lr = GridSearchCV(estimator=lr, param_grid=params, scoring = 'recall', verbose= 1, n_jobs= -1)
+cv_lr.fit(X_under_train, y_under_train)
+best_params = cv_lr.best_estimator_
+print('The best parameters for using this model is:', best_params)
+# return best_params
+# best_parameters = best_params()
+print(best_params)
+print(type(best_params))
+print(best_params.C)
+LogisticRegression(C=0.001, class_weight='balanced', dual=False,
+          fit_intercept=True, intercept_scaling=1, max_iter=100,
+          multi_class='warn', n_jobs=None, penalty='l2', random_state=None,
+          solver='warn', tol=0.0001, verbose=0, warm_start=False)
+<class 'sklearn.linear_model.logistic.LogisticRegression'>
+0.001
+如何用gridsearchcv获取最佳参数，已经不是难题了，但是如何调用参数？
+首先打印出best_params，和类型，发现不是字典，看到的其他code里面都是用字典的调用方法但是貌似不行了
+试了其他方法好像都不行。这一次直接用.的方式调用成功了。说明LogisticRegression的方式来调用就ok了。
